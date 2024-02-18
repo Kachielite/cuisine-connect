@@ -13,10 +13,15 @@ spring:
           show_sql: false
           use_sql_comments: true
       hibernate:
-        ddl-auto: validate
+        ddl-auto: create
 server:
   port: 8080
   servlet:
     context-path: /api/v1
   error:
     include-stacktrace: on_param
+cloudinary:
+  cloud-name: dahpyu601
+  api:
+    key: 512538252244163
+    secret: fZ_cCYr2diy2OMmGKlL1lu_2L7M

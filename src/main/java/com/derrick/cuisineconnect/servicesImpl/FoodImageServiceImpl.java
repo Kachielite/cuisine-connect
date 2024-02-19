@@ -1,5 +1,6 @@
 package com.derrick.cuisineconnect.servicesImpl;
 
+import com.derrick.cuisineconnect.dto.FoodImageRequestDTO;
 import com.derrick.cuisineconnect.dto.FoodImageResponseDTO;
 import com.derrick.cuisineconnect.dto.FoodRequestDTO;
 import com.derrick.cuisineconnect.entity.Food;
@@ -23,8 +24,8 @@ public class FoodImageServiceImpl implements FoodImageService {
     private final FoodImageRespository foodImageRespository;
     private final CloudinaryService cloudinaryService;
     @Override
-    public FoodImageResponseDTO addImage(FoodRequestDTO images, Long foodId) {
-        Optional<Food> foodItem = foodRepository.findById(foodId);
+    public FoodImageResponseDTO addImage(FoodImageRequestDTO imagesRequest) {
+        Optional<Food> foodItem = foodRepository.findById(imagesRequest.getFoodId());
 
         try{
             if(foodItem.isEmpty()){
@@ -35,8 +36,8 @@ public class FoodImageServiceImpl implements FoodImageService {
                         .build();
             }
 
-            if(!images.getImages().isEmpty()){
-                for(MultipartFile image: images.getImages()){
+            if(!imagesRequest.getImages().isEmpty()){
+                for(MultipartFile image: imagesRequest.getImages()){
                     String foodImageUrl = cloudinaryService.uploadImage(image, "food-image");
                     FoodImage foodImage = FoodImage.builder()
                             .imageUrl(foodImageUrl)
@@ -46,7 +47,7 @@ public class FoodImageServiceImpl implements FoodImageService {
                 }
             }
 
-            FoodImage foodImages = (FoodImage) foodImageRespository.findFoodImagesById(foodId);
+            FoodImage foodImages = (FoodImage) foodImageRespository.findFoodImagesById(imagesRequest.getFoodId());
 
             return FoodImageResponseDTO.builder()
                     .code(FoodUtils.FOOD_IMAGE_SAVED_CODE)

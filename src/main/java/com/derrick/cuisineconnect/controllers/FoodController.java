@@ -29,7 +29,7 @@ public class FoodController {
     }
 
     @PostMapping
-    public ResponseEntity<FoodResponseDTO> addNewFoodItem(@RequestBody FoodRequestDTO foodItem){
+    public ResponseEntity<FoodResponseDTO> addNewFoodItem(@ModelAttribute FoodRequestDTO foodItem){
         FoodResponseDTO newFoodItem = foodService.saveFoodItem(foodItem);
 
         if(Objects.equals(newFoodItem.getCode(), "002")){

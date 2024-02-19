@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -65,41 +66,110 @@ public class FoodServiceImpl implements FoodService {
 
     }
 
-//    @Override
-//    public FoodResponseDTO updateFoodItem(FoodRequestDTO request, Long foodId) {
-//       Optional<Food> foodItem = foodRepository.findById(foodId);
-//
-//       if(foodItem.isEmpty()){
-//           return FoodResponseDTO.builder()
-//                   .code(FoodUtils.FOOD_ITEM_ADDED_NOT_FOUND_CODE)
-//                   .message(FoodUtils.FOOD_ITEM_ADDED_NOT_FOUND_MESSAGE)
-//                   .item(null)
-//                   .build();
-//       }
-//
-//       Food footItemToBeUpdated = foodItem.get();
-//       footItemToBeUpdated.setName(request.getName());
-//       footItemToBeUpdated.setDescription(request.getDescription());
-//       footItemToBeUpdated.setPrice(request.getPrice());
-//       footItemToBeUpdated.setCategory(Categories.valueOf(request.getCategory()));
-//
-//
-//
-//
-//    }
-//
-//    @Override
-//    public FoodResponseDTO readFoodItemById(Long foodId) {
-//
-//    }
-//
-//    @Override
-//    public FoodResponseDTO readAllFoodItems(Long foodId) {
-//
-//    }
-//
-//    @Override
-//    public FoodResponseDTO deleteFoodItemById(Long foodId) {
-//
-//    }
+    @Override
+    public FoodResponseDTO updateFoodItem(FoodRequestDTO request, Long foodId) {
+       Optional<Food> foodItem = foodRepository.findById(foodId);
+
+       try{
+           if(foodItem.isEmpty()){
+               return FoodResponseDTO.builder()
+                       .code(FoodUtils.FOOD_ITEM_ADDED_NOT_FOUND_CODE)
+                       .message(FoodUtils.FOOD_ITEM_ADDED_NOT_FOUND_MESSAGE)
+                       .item(null)
+                       .build();
+           }
+
+           Food footItemToBeUpdated = foodItem.get();
+           footItemToBeUpdated.setName(request.getName());
+           footItemToBeUpdated.setDescription(request.getDescription());
+           footItemToBeUpdated.setPrice(request.getPrice());
+           footItemToBeUpdated.setCategory(Categories.valueOf(request.getCategory()));
+
+           foodRepository.save(footItemToBeUpdated);
+
+           return FoodResponseDTO.builder()
+                   .code(FoodUtils.FOOD_ITEM_UPDATED_SUCCESSFULLY_CODE)
+                   .message(FoodUtils.FOOD_ITEM_UPDATED_SUCCESSFULLY_MESSAGE)
+                   .item(footItemToBeUpdated)
+                   .build();
+       } catch (IllegalArgumentException e) {
+           return FoodResponseDTO.builder()
+                   .code(FoodUtils.FOOD_ITEM_UPDATED_FAILED_CODE)
+                   .message(FoodUtils.FOOD_ITEM_UPDATED_FAILED_MESSAGE + "--->" + e.getMessage())
+                   .item(null)
+                   .build();
+       }
+
+
+    }
+
+    @Override
+    public FoodResponseDTO readFoodItemById(Long foodId) {
+        Optional<Food> foodItem = foodRepository.findById(foodId);
+
+        try{
+            if(foodItem.isEmpty()){
+                return FoodResponseDTO.builder()
+                        .code(FoodUtils.FOOD_ITEM_ADDED_NOT_FOUND_CODE)
+                        .message(FoodUtils.FOOD_ITEM_ADDED_NOT_FOUND_MESSAGE)
+                        .item(null)
+                        .build();
+            }
+
+            return FoodResponseDTO.builder()
+                    .code(FoodUtils.FOOD_ITEM_RETRIEVED_CODE)
+                    .message(FoodUtils.FOOD_ITEM_RETRIEVE_MESSAGE)
+                    .item(foodItem.get())
+                    .build();
+        } catch (Exception e) {
+            return FoodResponseDTO.builder()
+                    .code(FoodUtils.FOOD_ITEM_UPDATED_FAILED_CODE)
+                    .message(FoodUtils.FOOD_ITEM_UPDATED_FAILED_MESSAGE + "--->" + e.getMessage())
+                    .item(null)
+                    .build();
+        }
+
+    }
+
+    @Override
+    public FoodResponseDTO readAllFoodItems(Long foodId) {
+        List<Food> foodItemList = foodRepository.findAll();
+
+        return FoodResponseDTO.builder()
+                .code(FoodUtils.FOOD_ITEM_RETRIEVED_CODE)
+                .message(FoodUtils.FOOD_ITEM_RETRIEVE_MESSAGE)
+                .item((Food) foodItemList)
+                .build();
+
+    }
+
+    @Override
+    public FoodResponseDTO deleteFoodItemById(Long foodId) {
+        Optional<Food> foodItem = foodRepository.findById(foodId);
+
+        try{
+            if(foodItem.isEmpty()){
+                return FoodResponseDTO.builder()
+                        .code(FoodUtils.FOOD_ITEM_ADDED_NOT_FOUND_CODE)
+                        .message(FoodUtils.FOOD_ITEM_ADDED_NOT_FOUND_MESSAGE)
+                        .item(null)
+                        .build();
+            }
+
+            foodRepository.deleteById(foodId);
+
+            return FoodResponseDTO.builder()
+                    .code(FoodUtils.FOOD_ITEM_DELETED_CODE)
+                    .message(FoodUtils.FOOD_ITEM_DELETED_MESSAGE)
+                    .item(foodItem.get())
+                    .build();
+        } catch (Exception e) {
+            return FoodResponseDTO.builder()
+                    .code(FoodUtils.FOOD_ITEM_DELETION_FAILED_CODE)
+                    .message(FoodUtils.FOOD_ITEM_ELETION_FAILED_MESSAGE + "--->" + e.getMessage())
+                    .item(null)
+                    .build();
+        }
+
+    }
 }

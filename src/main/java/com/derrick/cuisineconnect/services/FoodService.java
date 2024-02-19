@@ -3,19 +3,18 @@ package com.derrick.cuisineconnect.services;
 
 import com.derrick.cuisineconnect.dto.FoodRequestDTO;
 import com.derrick.cuisineconnect.dto.FoodResponseDTO;
-import com.derrick.cuisineconnect.entity.Food;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface FoodService {
     FoodResponseDTO saveFoodItem(FoodRequestDTO food);
 
-//    FoodResponseDTO updateFoodItem(FoodRequestDTO food, Long foodId);
-//
-//    FoodResponseDTO readFoodItemById(Long foodId);
-//
-//    FoodResponseDTO readAllFoodItems(Long foodId);
-//
-//    FoodResponseDTO deleteFoodItemById(Long foodId);
+    FoodResponseDTO updateFoodItem(FoodRequestDTO food, Long foodId);
+
+    FoodResponseDTO readFoodItemById(Long foodId);
+
+    FoodResponseDTO readAllFoodItems(Long foodId);
+
+    FoodResponseDTO deleteFoodItemById(Long foodId);
 
 }

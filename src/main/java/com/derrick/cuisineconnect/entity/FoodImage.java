@@ -1,5 +1,7 @@
 package com.derrick.cuisineconnect.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,6 +24,7 @@ public class FoodImage {
 
     private String imageUrl;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "food_id")
     private Food food;

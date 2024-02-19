@@ -1,5 +1,6 @@
 package com.derrick.cuisineconnect.servicesImpl;
 
+
 import com.derrick.cuisineconnect.dto.FoodRequestDTO;
 import com.derrick.cuisineconnect.dto.FoodResponseDTO;
 import com.derrick.cuisineconnect.entity.Categories;
@@ -40,16 +41,21 @@ public class FoodServiceImpl implements FoodService {
 
             Food savedFoodItem = foodRepository.save(newFood);
 
-            if(!request.getImages().isEmpty()){
+            if(request.getImages() != null && !request.getImages().isEmpty()){
                 for(MultipartFile image: request.getImages()){
-                    String foodImageUrl = cloudinaryService.uploadImage(image, "food-image");
-                    FoodImage foodImage = FoodImage.builder()
-                            .imageUrl(foodImageUrl)
-                            .food(savedFoodItem)
-                            .build();
-                    foodImageRespository.save(foodImage);
+                    // Ensure the file is not empty before processing
+                    if (!image.isEmpty()) {
+                        String foodImageUrl = cloudinaryService.uploadImage(image, "food-image");
+                        FoodImage foodImage = FoodImage.builder()
+                                .imageUrl(foodImageUrl)
+                                .food(savedFoodItem)
+                                .build();
+                        foodImageRespository.save(foodImage);
+                    }
                 }
             }
+
+
 
             return FoodResponseDTO.builder()
                     .code(FoodUtils.FOOD_ITEM_ADDED_SUCCESSFULLY_CODE)
@@ -67,7 +73,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public FoodResponseDTO updateFoodItem(FoodRequestDTO request, Long foodId) {
+    public FoodResponseDTO updateFoodItem(Long foodId, FoodRequestDTO request) {
        Optional<Food> foodItem = foodRepository.findById(foodId);
 
        try{
@@ -105,7 +111,7 @@ public class FoodServiceImpl implements FoodService {
 
     @Override
     public FoodResponseDTO readFoodItemById(Long foodId) {
-        Optional<Food> foodItem = foodRepository.findById(foodId);
+        Optional<Food> foodItem = foodRepository.findFoodWithImagesById(foodId);
 
         try{
             if(foodItem.isEmpty()){
@@ -115,6 +121,8 @@ public class FoodServiceImpl implements FoodService {
                         .item(null)
                         .build();
             }
+
+
 
             return FoodResponseDTO.builder()
                     .code(FoodUtils.FOOD_ITEM_RETRIEVED_CODE)

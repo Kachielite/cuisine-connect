@@ -13,6 +13,7 @@ spring:
           use_sql_comments: true
       hibernate:
         ddl-auto: update
+
 server:
   port: 8080
   servlet:
@@ -24,3 +25,10 @@ cloudinary:
   api:
     key: 512538252244163
     secret: fZ_cCYr2diy2OMmGKlL1lu_2L7M
+
+logging:
+  level:
+    org:
+      springframework:
+        web: DEBUG
+      hibernate: ERROR

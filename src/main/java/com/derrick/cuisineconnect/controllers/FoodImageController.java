@@ -16,7 +16,7 @@ import java.util.Objects;
 @RequestMapping("/images")
 @RequiredArgsConstructor
 public class FoodImageController {
-    FoodImageService foodImageService;
+    private final FoodImageService foodImageService;
     @PutMapping
     public ResponseEntity<FoodImageResponseDTO> addImage(@RequestBody FoodImageRequestDTO imagesRequest) throws IOException {
         FoodImageResponseDTO foodImages = foodImageService.addImage(imagesRequest);

@@ -39,9 +39,9 @@ public class FoodController {
         return new ResponseEntity<>(newFoodItem, HttpStatus.CREATED);
     }
 
-    @PutMapping
-    public ResponseEntity<FoodResponseDTO> updateFoodItem(@RequestBody FoodRequestDTO foodItem, Long footId){
-        FoodResponseDTO foodItemToBeUpdated = foodService.updateFoodItem(foodItem, footId);
+    @PutMapping("/{foodId}")
+    public ResponseEntity<FoodResponseDTO> updateFoodItem(@PathVariable String foodId, @ModelAttribute FoodRequestDTO foodItem){
+        FoodResponseDTO foodItemToBeUpdated = foodService.updateFoodItem(Long.valueOf(foodId), foodItem);
         if(Objects.equals(foodItemToBeUpdated.getCode(), "003")){
             return new ResponseEntity<>(foodItemToBeUpdated, HttpStatus.NOT_FOUND);
         }

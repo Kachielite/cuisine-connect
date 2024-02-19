@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public interface FoodService {
     FoodResponseDTO saveFoodItem(FoodRequestDTO food);
 
-    FoodResponseDTO updateFoodItem(FoodRequestDTO food, Long foodId);
+    FoodResponseDTO updateFoodItem(Long foodId, FoodRequestDTO request);
 
     FoodResponseDTO readFoodItemById(Long foodId);
 

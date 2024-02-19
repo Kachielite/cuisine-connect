@@ -13,7 +13,7 @@ public interface FoodService {
 
     FoodResponseDTO readFoodItemById(Long foodId);
 
-    FoodResponseDTO readAllFoodItems(Long foodId);
+    FoodResponseDTO readAllFoodItems();
 
     FoodResponseDTO deleteFoodItemById(Long foodId);
 

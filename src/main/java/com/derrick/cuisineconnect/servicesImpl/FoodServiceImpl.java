@@ -132,7 +132,7 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public FoodResponseDTO readAllFoodItems(Long foodId) {
+    public FoodResponseDTO readAllFoodItems() {
         List<Food> foodItemList = foodRepository.findAll();
 
         return FoodResponseDTO.builder()

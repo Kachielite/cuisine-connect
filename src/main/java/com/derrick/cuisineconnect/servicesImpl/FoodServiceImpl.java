@@ -166,7 +166,7 @@ public class FoodServiceImpl implements FoodService {
         } catch (Exception e) {
             return FoodResponseDTO.builder()
                     .code(FoodUtils.FOOD_ITEM_DELETION_FAILED_CODE)
-                    .message(FoodUtils.FOOD_ITEM_ELETION_FAILED_MESSAGE + "--->" + e.getMessage())
+                    .message(FoodUtils.FOOD_ITEM_DELETION_FAILED_MESSAGE + "--->" + e.getMessage())
                     .item(null)
                     .build();
         }

@@ -146,7 +146,7 @@ public class FoodServiceImpl implements FoodService {
         return FoodResponseDTO.builder()
                 .code(FoodUtils.FOOD_ITEM_RETRIEVED_CODE)
                 .message(FoodUtils.FOOD_ITEM_RETRIEVE_MESSAGE)
-                .item((Food) foodItemList)
+                .items(foodItemList)
                 .build();
 
     }
